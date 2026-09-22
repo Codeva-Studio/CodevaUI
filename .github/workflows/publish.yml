@@ -1,0 +1,34 @@
+name: Publish CodevaUI
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # Descargamos el código del repositorio
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # Configuramos Java para construir nuestra librería
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
+      # Construimos y publicamos CodevaUI en GitHub Packages
+      - name: Publish package
+        run: ./mvnw --batch-mode deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
