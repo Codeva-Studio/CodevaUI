@@ -1,62 +1,57 @@
 package org.codevastudio.codevaui.ui.component.button;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.scene.control.Control;
+import javafx.scene.control.Skin;
 
-// Creamos el controlador encargado de gestionar el comportamiento del componente CodevaButton
-public class CodevaButton implements Initializable {
+// Control personalizado que representa un botón reutilizable dentro de la librería CodevaUI
+ public class CodevaButton extends Control {
 
-    // Definimos y conectamos nuestros componentes del archivo FXML.
-    @FXML private Label lblTexto; // Representa el texto que mostramos dentro del botón
-    @FXML private StackPane spBoton; // Representa el contenedor principal de nuestro botón
+    // Guardamos el texto que representa nuestro botón
+    // Creamos una propiedad propia de este elemento cuyo nombre es text y tiene un valor por defecto
+    private final StringProperty text = new SimpleStringProperty(this, "text", "Button");
 
     // Guardamos la acción que deberá ejecutarse cuando el botón sea presionado
-    private EventHandler<ActionEvent> onAction;
-
-    // Ejecutamos la inicialización del componente una vez que JavaFX ha cargado el archivo FXML y conectado sus componentes
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        // Configuramos el evento que se ejecutará cuando hagamos clic sobre el botón
-        spBoton.setOnMouseClicked(event -> {
-
-            // Comprobamos si existe una acción configurada para el botón
-            if (onAction != null) {
-
-                // Ejecutamos la acción que previamente configuramos
-                onAction.handle(new ActionEvent(spBoton, null));
-            }
-        });
-    }
-
-    // Getters
+    private final ObjectProperty<EventHandler<ActionEvent>> onAction = new SimpleObjectProperty<>(this, "onAction");
 
     // Obtenemos el texto actual del botón
     public String getText() {
-        return lblTexto.getText();
+        return text.get();
     }
 
-    // Obtenemos la acción actualmente configurada.
+    // Establecemos el texto que mostrará el botón
+    public void setText(String texto) {
+        text.set(texto);
+    }
+
+    // Obtenemos la propiedad observable que representa el texto
+    public StringProperty textProperty() {
+        return text;
+    }
+
+    // Obtenemos la acción actualmente configurada
     public EventHandler<ActionEvent> getOnAction() {
+        return onAction.get();
+    }
+
+    // Establecemos la acción que ejecutará el botón
+    public void setOnAction(EventHandler<ActionEvent> accion) {
+        onAction.set(accion);
+    }
+
+    // Obtenemos la propiedad observable que representa la acción
+    public ObjectProperty<EventHandler<ActionEvent>> onActionProperty() {
         return onAction;
     }
 
-    // Setters
-
-    // Establecemos el texto que mostrará el botón.
-    public void setText(String texto) {
-        lblTexto.setText(texto);
+    // Creamos el Skin encargado de representar visualmente nuestro botón
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return new CodevaButtonSkin(this);
     }
-
-    // Establecemos la acción que ejecutará el botón al ser presionado.
-    public void setOnAction(EventHandler<ActionEvent> onAction) {
-        this.onAction = onAction;
-    }
-
 }

@@ -3,8 +3,27 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="spBoton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="120.0" styleClass="codeva-button" stylesheets="@CodevaButton.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label fx:id="lblTexto" alignment="CENTER" styleClass="codeva-button-label" text="Button" />
-   </children>
+<StackPane
+        fx:id="spBoton"
+        maxHeight="-Infinity"
+        maxWidth="-Infinity"
+        minHeight="-Infinity"
+        minWidth="-Infinity"
+        prefHeight="40.0"
+        prefWidth="120.0"
+        styleClass="codeva-button"
+        stylesheets="@CodevaButton.css"
+        xmlns="http://javafx.com/javafx/25"
+        xmlns:fx="http://javafx.com/fxml/1">
+
+    <children>
+
+        <Label
+                fx:id="lblTexto"
+                alignment="CENTER"
+                styleClass="codeva-button-label"
+                text="Button"/>
+
+    </children>
+
 </StackPane>
