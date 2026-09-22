@@ -1,0 +1,24 @@
+/*
+ * Estilos base del componente CodevaButton.
+ */
+.codeva-button {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+/*
+ * Estado del componente cuando el cursor está sobre él.
+ */
+.codeva-button:hover {
+    -fx-background-color: #BDBDBD;
+}
+
+/*
+ * Estilos del texto mostrado por el botón.
+ */
+.codeva-button-label {
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
