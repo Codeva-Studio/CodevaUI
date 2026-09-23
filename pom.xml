@@ -1,66 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.codevastudio</groupId>
+    <!-- Información del proyecto -->
+    <groupId>io.github.codeva-studio</groupId>
     <artifactId>codeva-ui</artifactId>
     <version>0.1.0</version>
-    <name>CodevaUI</name>
 
+    <name>CodevaUI</name>
+    <description>
+        Librería de interfaz gráfica para proyectos JavaFX desarrollada por Codeva Studio.
+    </description>
+
+    <url>https://github.com/Codeva-Studio/CodevaUI</url>
+
+    <!-- Licencia -->
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <!-- Información del desarrollador -->
+    <developers>
+        <developer>
+            <name>Alejandro Suárez</name>
+            <email>alejandro.suarez.dev@gmail.com</email>
+            <organization>Codeva Studio</organization>
+            <organizationUrl>https://github.com/Codeva-Studio</organizationUrl>
+        </developer>
+    </developers>
+
+    <!-- Control de versiones -->
+    <scm>
+        <connection>
+            scm:git:git://github.com/Codeva-Studio/CodevaUI.git
+        </connection>
+        <developerConnection>
+            scm:git:ssh://github.com:Codeva-Studio/CodevaUI.git
+        </developerConnection>
+        <url>
+            https://github.com/Codeva-Studio/CodevaUI/tree/main
+        </url>
+    </scm>
+
+    <!-- Propiedades -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.12.1</junit.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
     </properties>
 
+    <!-- Dependencias -->
     <dependencies>
+
+        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>21.0.6</version>
         </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>21.0.6</version>
         </dependency>
 
+        <!-- JUnit -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
-    <!-- Configuración del repositorio donde se publicará la librería. -->
-    <distributionManagement>
-
-        <!-- Repositorio Maven de destino para las publicaciones. -->
-        <repository>
-
-            <!-- Identificador utilizado por Maven para reconocer el repositorio. -->
-            <id>github</id>
-
-            <!-- Nombre descriptivo del repositorio de publicación. -->
-            <name>GitHub Packages</name>
-
-            <!-- Dirección del registro Maven de GitHub Packages asociado al proyecto. -->
-            <url>https://maven.pkg.github.com/Codeva-Studio/CodevaUI</url>
-
-        </repository>
-
-    </distributionManagement>
-
+    <!-- Plugins -->
     <build>
         <plugins>
+
+            <!-- Compilador -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -70,6 +105,62 @@
                     <target>25</target>
                 </configuration>
             </plugin>
+
+            <!-- Código fuente -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.11.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Firma GPG -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.7</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Publicación en Maven Central -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+            </plugin>
+
         </plugins>
     </build>
+
 </project>
