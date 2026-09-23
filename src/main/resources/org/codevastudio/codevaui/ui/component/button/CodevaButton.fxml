@@ -13,7 +13,7 @@
         prefWidth="120.0"
         styleClass="codeva-button"
         stylesheets="@CodevaButton.css"
-        xmlns="http://javafx.com/javafx/25"
+        xmlns="http://javafx.com/javafx/21"
         xmlns:fx="http://javafx.com/fxml/1">
 
     <children>

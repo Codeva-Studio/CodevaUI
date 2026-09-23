@@ -10,7 +10,7 @@
     <!-- Información del proyecto -->
     <groupId>io.github.codeva-studio</groupId>
     <artifactId>codeva-ui</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 
     <name>CodevaUI</name>
     <description>

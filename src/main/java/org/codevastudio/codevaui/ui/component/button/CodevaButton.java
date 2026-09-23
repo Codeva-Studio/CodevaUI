@@ -19,6 +19,11 @@ import javafx.scene.control.Skin;
     // Guardamos la acción que deberá ejecutarse cuando el botón sea presionado
     private final ObjectProperty<EventHandler<ActionEvent>> onAction = new SimpleObjectProperty<>(this, "onAction");
 
+    // Constructor explícito requerido por Scene Builder
+    public CodevaButton() {
+        super();
+    }
+
     // Obtenemos el texto actual del botón
     public String getText() {
         return text.get();
