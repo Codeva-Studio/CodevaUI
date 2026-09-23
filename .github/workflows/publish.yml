@@ -1,34 +1,53 @@
-name: Publish CodevaUI
+# FLUJO DE TRABAJO DE GITHUB ACTIONS: Publicación en Maven Central
+# Este archivo le enseña a GitHub qué pasos seguir automáticamente para compilar, firmar digitalmente y subir tu librería a Maven Central
+
+# Nombre descriptivo que aparecerá en la pestaña "Actions" de tu repositorio
+name: Publish to Maven Central
+
+# 1. ACTIVADOR (EVANTO QUE DESENCADENA EL PROCESO)
 
 on:
   release:
-    types: [created]
+    types: [created] # El proceso inicia SOLO cuando creas una nueva "Release" en GitHub
+
+# 2. TRABAJO DE PUBLICACIÓN
 
 jobs:
   publish:
+    # Le indicamos a GitHub que use un servidor virtual con Linux Ubuntu actualizado
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      packages: write
-
+    # Secuencia de pasos que la máquina virtual ejecutará ordenadamente:
     steps:
-      # Descargamos el código del repositorio
-      - name: Checkout
-        uses: actions/checkout@v6
 
-      # Configuramos Java para construir nuestra librería
+      # PASO A: Clonamos y descarga el código fuente de tu proyecto en la máquina virtual
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # PASO B: Instalamos y configura Java en el servidor
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: '25'
-          distribution: 'temurin'
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
+          java-version: '25' # Versión de Java a instalar
+          distribution: 'temurin' # Distribución JDK (Temurin / Adoptium)
+          server-id: central # Identificador interno que Maven requiere para el servidor
+          server-username: MAVEN_CENTRAL_USERNAME # Nombre de la variable que usará para tu usuario
+          server-password: MAVEN_CENTRAL_TOKEN # Nombre de la variable que usará para tu token
 
-      # Construimos y publicamos CodevaUI en GitHub Packages
-      - name: Publish package
-        run: ./mvnw --batch-mode deploy
+      # PASO C: Importamos la clave privada GPG para poder firmar la librería
+      - name: Import GPG Key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          # Tomamos la clave privada y la contraseña directamente desde GitHub Secrets de forma segura
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      # PASO D: Compilamos el código, genera los JARs, los firma y los sube a Maven Central
+      - name: Publish Package
+        # Ejecutamos el Wrapper de Maven sin pedir confirmaciones manuales (--batch-mode)
+        run: ./mvnw --batch-mode clean deploy
+        # Le inyecta al comando de Maven las credenciales reales ocultas en GitHub Secrets
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
